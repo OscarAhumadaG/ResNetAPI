@@ -2,6 +2,7 @@ import streamlit as st
 import io
 from PIL import Image
 import torch
+from torchvision.models import resnet50
 from torchvision import transforms
 import plotly.graph_objects as go
 
