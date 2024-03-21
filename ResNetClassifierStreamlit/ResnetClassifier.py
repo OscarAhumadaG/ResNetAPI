@@ -5,10 +5,17 @@ import torch
 from torchvision import transforms
 import plotly.graph_objects as go
 
+# Create a cache to store the loaded model
+@st.cache(allow_output_mutation=True)
+def load_model():
+    # Load the model
+    resnet50 = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_resnet50', pretrained=True)
+    utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_convnets_processing_utils')
+    resnet50.eval()
+    return resnet50, utils
+
 # Load the model only once
-resnet50 = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_resnet50', pretrained=True)
-utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_convnets_processing_utils')
-resnet50.eval()
+resnet50, utils = load_model()
 
 st.title("ResNet CNN Classifier")
 
@@ -20,7 +27,6 @@ if btn_classify and  uploaded_file is not None:
     # Use try-except to handle potential errors when opening the image
     try:
         # Open the image using PIL
-		
         image = Image.open(io.BytesIO(uploaded_file.read())).convert('RGB')
         st.image(image, caption='Uploaded Image', use_column_width=True)
         
@@ -32,7 +38,6 @@ if btn_classify and  uploaded_file is not None:
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),])
         
         input_tensor = transform(image)
-    
         input_batch = input_tensor.unsqueeze(0)
     
         with torch.no_grad():
@@ -45,7 +50,7 @@ if btn_classify and  uploaded_file is not None:
         for idx, result in enumerate(results):
             labels = []
             scores = []
-    # Iterate through the list of predictions in each result
+            # Iterate through the list of predictions in each result
             for prediction in result:
                 # Extract the label and score from each prediction
                 if len(prediction) == 2:
@@ -68,10 +73,9 @@ if btn_classify and  uploaded_file is not None:
         # Display the Plotly figure using st.plotly_chart
         st.plotly_chart(fig)
         
-        
-
     except Exception as e:
         st.error(f"Error processing the uploaded image: {e}")
+
 
 
 
