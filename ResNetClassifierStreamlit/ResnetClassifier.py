@@ -5,6 +5,7 @@ import torch
 from torchvision.models import resnet50
 from torchvision import transforms
 import plotly.graph_objects as go
+import utils
 
 # Load the model only once
 resnet50 = resnet50(pretrained=True)
