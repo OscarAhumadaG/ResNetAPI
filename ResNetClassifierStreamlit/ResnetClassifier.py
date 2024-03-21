@@ -10,6 +10,12 @@ import plotly.graph_objects as go
 resnet50_model = resnet50(pretrained=True)
 resnet50_model.eval()
 
+def pick_n_best(predictions, n=4):
+    pred_list = [(idx, prob.item()) for idx, prob in enumerate(predictions[0])]
+    pred_list.sort(key=lambda x: x[1], reverse=True)
+    top_n = pred_list[:n]
+    return [[(f"Class {idx}", f"{prob:.2%}") for idx, prob in top_n]]
+
 st.title("ResNet CNN Classifier")
 
 uploaded_file = st.sidebar.file_uploader("Choose an image")
@@ -36,8 +42,8 @@ if btn_classify and uploaded_file is not None:
 
         with torch.no_grad():
             output = torch.nn.functional.softmax(resnet50_model(input_batch), dim=1)
-    
-        results = utils.pick_n_best(predictions=output, n=4)
+
+        results = pick_n_best(predictions=output, n=4)
 
         st.title("Image Results")
 
@@ -48,13 +54,9 @@ if btn_classify and uploaded_file is not None:
             for prediction in result:
                 if len(prediction) == 2:
                     label, score = prediction
-                    label = label.split(',')[0]
-                    score = float(score.rstrip('%'))
                     labels.append(label)
                     scores.append(score)
-                    st.write(f"{label.title()}: {score:.2f}%")
-                else:
-                    st.error("Invalid prediction format. Expected (label, score).")
+                    st.write(f"{label.title()}: {score}")
 
         st.write()
         st.title("Visualization Results")
