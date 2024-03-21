@@ -6,7 +6,7 @@ from torchvision import transforms
 import plotly.graph_objects as go
 
 # Load the model only once
-resnet50 = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_resnet50', pretrained=True)
+resnet50 = resnet50(pretrained=True)
 utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_convnets_processing_utils')
 resnet50.eval()
 
