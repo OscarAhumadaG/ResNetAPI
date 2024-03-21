@@ -9,7 +9,6 @@ import utils
 
 # Load the model only once
 resnet50 = resnet50(pretrained=True)
-utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_convnets_processing_utils')
 resnet50.eval()
 
 st.title("ResNet CNN Classifier")
