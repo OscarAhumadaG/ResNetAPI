@@ -3,18 +3,15 @@ import numpy as np
 
 
 # returns the top1 string
-def print_prob(prob, file_path):
+def print_prob(prob, file_path, top_n=1):
     synset = [l.strip() for l in open(file_path).readlines()]
 
-    # print prob
-    pred = np.argsort(prob)[::-1]
+    # Get probabilities
+    prob_np = prob.numpy()
+    pred = np.argsort(prob_np)[::-1]
 
-    # Get top1 label
-    top1 = synset[pred[0]]
-    print(("Top1: ", top1, prob[pred[0]]))
-    # Get top5 label
-    top5 = [(synset[pred[i]], prob[pred[i]]) for i in range(5)]
-    print(("Top5: ", top5))
-    return top1
+    # Get top N labels
+    top_n_labels = [(synset[pred[i]], prob_np[pred[i]]) for i in range(top_n)]
+    return top_n_labels
 
 
