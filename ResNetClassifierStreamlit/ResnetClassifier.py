@@ -1,20 +1,12 @@
-import streamlit as st
-import io
-from PIL import Image
-import torch
-from torchvision.models import resnet50
-from torchvision import transforms
-import plotly.graph_objects as go
-
 # Load the model only once
 resnet50_model = resnet50(pretrained=True)
 resnet50_model.eval()
 
-def pick_n_best(predictions, n=4):
-    pred_list = [(idx, prob.item()) for idx, prob in enumerate(predictions[0])]
-    pred_list.sort(key=lambda x: x[1], reverse=True)
-    top_n = pred_list[:n]
-    return [[(f"Class {idx}", f"{prob:.2%}") for idx, prob in top_n]]
+# Load ImageNet class labels
+class_names = None
+with open('imagenet_class_index.json') as f:
+    class_idx = json.load(f)
+    class_names = [class_idx[str(i)][1] for i in range(len(class_idx))]
 
 st.title("ResNet CNN Classifier")
 
@@ -53,10 +45,11 @@ if btn_classify and uploaded_file is not None:
         for idx, result in enumerate(results):
             for prediction in result:
                 if len(prediction) == 2:
-                    label, score = prediction
-                    labels.append(label)
+                    class_idx, score = prediction
+                    class_name = class_names[int(class_idx)]
+                    labels.append(class_name)
                     scores.append(score)
-                    st.write(f"{label.title()}: {score}")
+                    st.write(f"{class_name}: {score}")
 
         st.write()
         st.title("Visualization Results")
