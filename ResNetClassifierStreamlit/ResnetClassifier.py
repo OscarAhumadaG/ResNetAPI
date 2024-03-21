@@ -2,13 +2,13 @@ import streamlit as st
 import io
 from PIL import Image
 import torch
+from torchvision.models import resnet50
 from torchvision import transforms
 import plotly.graph_objects as go
 
 # Load the model only once
-resnet50 = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_resnet50', pretrained=True)
-utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_convnets_processing_utils')
-resnet50.eval()
+resnet50_model = resnet50(pretrained=True)
+resnet50_model.eval()
 
 st.title("ResNet CNN Classifier")
 
