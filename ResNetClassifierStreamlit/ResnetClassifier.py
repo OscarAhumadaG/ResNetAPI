@@ -1,3 +1,12 @@
+import streamlit as st
+import io
+from PIL import Image
+import torch
+from torchvision.models import resnet50
+from torchvision import transforms
+import plotly.graph_objects as go
+import json
+
 # Load the model only once
 resnet50_model = resnet50(pretrained=True)
 resnet50_model.eval()
