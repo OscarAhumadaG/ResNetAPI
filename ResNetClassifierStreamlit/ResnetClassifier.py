@@ -5,7 +5,6 @@ import torch
 from torchvision.models import resnet50
 from torchvision import transforms
 import plotly.graph_objects as go
-import utils  # Assuming you have a utils.py file with pick_n_best function
 
 # Load the model only once
 resnet50_model = resnet50(pretrained=True)
@@ -37,7 +36,7 @@ if btn_classify and uploaded_file is not None:
 
         with torch.no_grad():
             output = torch.nn.functional.softmax(resnet50_model(input_batch), dim=1)
-
+    
         results = utils.pick_n_best(predictions=output, n=4)
 
         st.title("Image Results")
