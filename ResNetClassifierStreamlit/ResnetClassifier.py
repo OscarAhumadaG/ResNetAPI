@@ -18,9 +18,11 @@ btn_classify = st.sidebar.button("Classify")
 # Check if a file is uploaded
 if btn_classify and  uploaded_file is not None:
     # Use try-except to handle potential errors when opening the image
+    st.write("I'm processing the image")
+
     try:
         # Open the image using PIL
-		
+	st.write("I'm processing the image")	
         image = Image.open(io.BytesIO(uploaded_file.read())).convert('RGB')
         st.image(image, caption='Uploaded Image', use_column_width=True)
         
@@ -30,7 +32,7 @@ if btn_classify and  uploaded_file is not None:
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),])
-        
+        st.write("I'm processing the image")
         input_tensor = transform(image)
     
         input_batch = input_tensor.unsqueeze(0)
