@@ -32,8 +32,10 @@ if btn_classify and  uploaded_file is not None:
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),])
-        st.write("I'm processing the image")
+	    
+        
         input_tensor = transform(image)
+	st.write("I'm processing the image")
     
         input_batch = input_tensor.unsqueeze(0)
     
