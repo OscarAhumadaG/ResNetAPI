@@ -56,7 +56,7 @@ if btn_classify and uploaded_file is not None:
         # Display the top 5 predicted classes and scores
         st.title("Top 5 Predictions:")
         for label, score in zip(top5_labels, top5_scores):
-            st.write(f"{label}: {score*100:.2f}")
+            st.write(f"{label}: {score*100:.2f}%")
         
         # Visualization
         st.title("Visualization Results")
