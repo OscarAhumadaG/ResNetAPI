@@ -45,27 +45,26 @@ if btn_classify and uploaded_file is not None:
         with torch.no_grad():
             output = torch.nn.functional.softmax(resnet50_model(input_batch), dim=1)
         
-        # Get the index of the predicted class
-        predicted_class_index = torch.argmax(output).item()
+        # Get the top 5 predicted classes and scores
+        top5_scores, top5_indices = torch.topk(output, 5)
+        top5_scores = top5_scores.squeeze().tolist()
+        top5_indices = top5_indices.squeeze().tolist()
         
-        # Get the predicted class name
-        predicted_class_name = class_names[predicted_class_index]
+        # Get the labels corresponding to the top 5 indices
+        top5_labels = [class_names[idx] for idx in top5_indices]
         
-        # Display the predicted class name
-        st.write("Predicted Class:", predicted_class_name)
+        # Display the top 5 predicted classes and scores
+        st.write("Top 5 Predictions:")
+        for label, score in zip(top5_labels, top5_scores):
+            st.write(f"{label}: {score:.4f}")
         
         # Visualization
         st.title("Visualization Results")
         fig = go.Figure()
-        fig.add_trace(go.Bar(x=class_names, y=output.squeeze().tolist(), name='Prediction Scores'))
-        fig.update_layout(title_text='Prediction Scores', xaxis_title='Labels', yaxis_title='Scores')
+        fig.add_trace(go.Bar(x=top5_labels, y=top5_scores, name='Prediction Scores'))
+        fig.update_layout(title_text='Top 5 Prediction Scores', xaxis_title='Labels', yaxis_title='Scores')
         # Display the Plotly figure using st.plotly_chart
         st.plotly_chart(fig)
         
     except Exception as e:
         st.error(f"Error processing the uploaded image: {e}")
-
-
-
-
-
