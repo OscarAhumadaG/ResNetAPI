@@ -39,7 +39,7 @@ if btn_classify and  uploaded_file is not None:
         with torch.no_grad():
             output = torch.nn.functional.softmax(resnet50(input_batch), dim=1)
     
-        results = utils.print_prob(output[0], 'imagenet-classes.txt')
+        results = utils.print_prob(output[0], 'https://raw.githubusercontent.com/OscarAhumadaG/ResNetClassifier/main/ResNetClassifierStreamlit/imagenet-classes.txt')
         
         st.title("Image Results")
         
