@@ -17,10 +17,10 @@ def load_class_names(url):
     class_names = response.text.split('\n')
     return class_names
 
-imagenet_classes_url = imagenet_classes_url = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.json"
+imagenet_classes_url = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.json"
 
 class_names = load_class_names(imagenet_classes_url)
-
+st.write(class_names)
 st.title("ResNet CNN Classifier")
 
 uploaded_file = st.sidebar.file_uploader("Choose an image")
