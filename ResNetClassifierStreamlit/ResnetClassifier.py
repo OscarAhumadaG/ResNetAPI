@@ -50,8 +50,9 @@ if btn_classify and  uploaded_file is not None:
             output = torch.nn.functional.softmax(resnet50(input_batch), dim=1)
     
         results = utils.print_prob(output[0], class_names, top_n=1)
-
 	st.write(results)
+
+	    
         """st.title("Image Results")
         
         for idx, result in enumerate(results):
