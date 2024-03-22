@@ -51,27 +51,6 @@ if btn_classify and  uploaded_file is not None:
     
         results = utils.print_prob(output[0], class_names, top_n=1)
 	st.write(results)
-
-	    
-        """st.title("Image Results")
-        
-        for idx, result in enumerate(results):
-            labels = []
-            scores = []
-    # Iterate through the list of predictions in each result
-            for prediction in result:
-                # Extract the label and score from each prediction
-                if len(prediction) == 2:
-                    label, score = prediction
-                    label = label.split(',')[0]  # Extract only the first part of the label
-                    score = float(score.rstrip('%'))  # Convert the score to a float
-                    labels.append(label)
-                    scores.append(score)
-
-                    # Display the formatted result
-                    st.write(f"{label.title()}: {score:.2f}%")
-                else:
-                    st.error("Invalid prediction format. Expected (label, score).")"""
         
         st.write()
         st.title("Visualization Results")
