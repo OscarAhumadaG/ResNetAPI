@@ -6,10 +6,20 @@ from torchvision.models import resnet50
 from torchvision import transforms
 import plotly.graph_objects as go
 import utils
+import requests
 
 # Load the model only once
 resnet50 = resnet50(pretrained=True)
 resnet50.eval()
+
+def load_class_names(url):
+    response = requests.get(url)
+    class_names = response.text.split('\n')
+    return class_names
+
+imagenet_classes_url = 'https://raw.githubusercontent.com/OscarAhumadaG/ResNetClassifier/main/ResNetClassifierStreamlit/imagenet-classes.txt'
+
+class_names = load_class_names(imagenet_classes_url)
 
 st.title("ResNet CNN Classifier")
 
@@ -39,7 +49,7 @@ if btn_classify and  uploaded_file is not None:
         with torch.no_grad():
             output = torch.nn.functional.softmax(resnet50(input_batch), dim=1)
     
-        results = utils.print_prob(output[0], 'https://raw.githubusercontent.com/OscarAhumadaG/ResNetClassifier/main/ResNetClassifierStreamlit/imagenet-classes.txt')
+        results = utils.print_prob(output[0], class_names)
         
         st.title("Image Results")
         
