@@ -47,16 +47,16 @@ if btn_classify and uploaded_file is not None:
         
         # Get the top 5 predicted classes and scores
         top5_scores, top5_indices = torch.topk(output, 5)
-        top5_scores = top5_scores.squeeze().tolist()
+        top5_scores = top5_scores.squeeze().tolist()*100
         top5_indices = top5_indices.squeeze().tolist()
         
         # Get the labels corresponding to the top 5 indices
         top5_labels = [class_names[idx] for idx in top5_indices]
         
         # Display the top 5 predicted classes and scores
-        st.write("Top 5 Predictions:")
+        st.title("Top 5 Predictions:")
         for label, score in zip(top5_labels, top5_scores):
-            st.write(f"{label}: {score:.4f}")
+            st.write(f"{label}: {score:.2f}")
         
         # Visualization
         st.title("Visualization Results")
