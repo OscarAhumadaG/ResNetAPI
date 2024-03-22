@@ -51,7 +51,7 @@ if btn_classify and  uploaded_file is not None:
     
         results = utils.print_prob(output[0], class_names)
         
-        st.title("Image Results")
+        """st.title("Image Results")
         
         for idx, result in enumerate(results):
             labels = []
@@ -69,7 +69,7 @@ if btn_classify and  uploaded_file is not None:
                     # Display the formatted result
                     st.write(f"{label.title()}: {score:.2f}%")
                 else:
-                    st.error("Invalid prediction format. Expected (label, score).")
+                    st.error("Invalid prediction format. Expected (label, score).")"""
         
         st.write()
         st.title("Visualization Results")
