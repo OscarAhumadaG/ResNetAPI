@@ -47,7 +47,7 @@ if btn_classify and uploaded_file is not None:
         
         # Get the top 5 predicted classes and scores
         top5_scores, top5_indices = torch.topk(output, 5)
-        top5_scores = top5_scores.squeeze().tolist()*100
+        top5_scores = (top5_scores.squeeze().tolist())*100
         top5_indices = top5_indices.squeeze().tolist()
         
         # Get the labels corresponding to the top 5 indices
